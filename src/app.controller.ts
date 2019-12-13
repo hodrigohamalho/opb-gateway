@@ -1,7 +1,5 @@
 import { Controller, Get, HttpService, Param, Post, Body } from '@nestjs/common';
 import { AppService } from './app.service';
-import { Observable } from 'rxjs';
-import { AxiosResponse } from 'axios';
 import { Payment } from './payment';
 
 @Controller()

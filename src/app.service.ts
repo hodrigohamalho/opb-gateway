@@ -11,11 +11,12 @@ export class AppService {
   }
 
   pay(payment: Payment, userId: string): Promise<any | any> {
+    var baseUrl ="http://rhte-bank:8080";
     let that = this;
     return this.cards(userId).then(function(_cards){
       const card = _cards.filter((c) => { return c.card_number == payment.card_number;})[0];
       if (card){
-        return that.httpService.post(`http://localhost:3000/banks/${card.bank_id}/transactions/${userId}`)
+        return that.httpService.post(`${baseUrl}/${card.bank_id}/transactions/${userId}`)
         .pipe(map((response: any) => {
           console.log(response.data);
           return response.data as any
@@ -70,14 +71,16 @@ export class AppService {
   }
 
   private transactionsByUserId(bank: string, userId: string): Promise<any | any>  {
-    return this.httpService.get(`http://localhost:3000/banks/${bank}/transactions/${userId}`).
+    var baseUrl ="http://rhte-bank:8080";
+    return this.httpService.get(`${baseUrl}/banks/${bank}/transactions/${userId}`).
       pipe(map((response: any) => {
         return response.data as any
       })).pipe(catchError(this.handleErrorVideo)).toPromise();
   }
 
   private cardsByUserId(bank: string, userId: string): Promise<any | any>  {
-    return this.httpService.get(`http://localhost:3000/banks/${bank}/cards/${userId}`).
+    var baseUrl ="http://rhte-bank:8080";
+    return this.httpService.get(`${baseUrl}/banks/${bank}/cards/${userId}`).
       pipe(map((response: any) => {
         return response.data as any
       })).pipe(catchError(this.handleErrorVideo)).toPromise();
